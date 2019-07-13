@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jtw.main.unified.dao.UserMapper" >
+
+    <select id="findByName" parameterType="java.lang.String" resultType="com.jtw.main.unified.entity.User">
+        SELECT * from user WHERE user.username=#{username}
+    </select>
+
+    <insert id="addUser" parameterType="com.jtw.main.unified.entity.User">
+        INSERT INTO user(username,password,salt,roleId) VALUES (#{username},#{password},#{salt},#{roleId})
+    </insert>
+
+    <select id="findByRoleId" parameterType="int" resultType="com.jtw.main.unified.entity.User">
+        select * from user where user.roleId = #{roleId}
+    </select>
+
+    <select id="findAll" resultType="com.jtw.main.unified.entity.User">
+        select * from user
+    </select>
+    <update id="changePassword" parameterType="java.lang.String">
+        update user set password=#{password},salt=#{salt} where user.username=#{username}
+    </update>
+    <update id="changeRoleId" parameterType="java.lang.String">
+        update user set roleId=#{roleId} where user.username=#{username}
+    </update>
+    <delete id="deleteUserByName" parameterType="java.lang.String">
+        delete from user where user.username=#{username}
+    </delete>
+</mapper>

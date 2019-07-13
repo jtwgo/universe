@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jtw.main.mybatis.dao.UserDao">
+    <select id="queryAllUsers" resultType="user" flushCache="true">
+        select * from users
+    </select>
+
+    <select id="countCustomName" resultType="int" parameterType="string">
+        select count(*) from users where username like concat(#{userName}, '%')
+    </select>
+    <insert id="createUser" parameterType="person">
+        insert into users(id,username,password,email,age) values (#{id},#{userName},#{password},#{email},#{age})
+    </insert>
+
+    <delete id="deleteUser" parameterType="long">
+        delete from users where id = #{id}
+    </delete>
+    <resultMap id="person" type="person">
+        <id column="id" property="num"/>
+        <result column="username" property="name"/>
+        <result column="password" property="pass"/>
+        <result column="email" property="email"/>
+        <result column="age" property="old"/>
+    </resultMap>
+</mapper>

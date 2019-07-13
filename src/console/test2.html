@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+	<title>test2</title>
+	<title>test angularjs</title>
+	<link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+	<script src="angular.min.js"></script>
+</head>
+<body ng-controller="contrl" ng-init="arr=['a','b','c','d']">
+	<ul>
+		<li ng-repeat="item in arr">
+			{{item}}
+		</li>
+
+	</ul>
+	<input type="text" ng-model="n" />
+	<span ng-bind="$eval(n)"></span>
+	<script type="text/javascript">
+		angular.module("myApp",[])
+		.controller("contrl",function($scope)
+		{
+			$scope.n = "28+1.2 | number:0"
+		});
+	</script>
+</body>
+</html>

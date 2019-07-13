@@ -1,0 +1,11 @@
+<span>天气预报查询：</span><input type="text" ng-model="sr" placeholder="请输入查询的城市" ng-click="cx(sr)" style="width:300px"/>
+<ul>
+
+    <li ng-repeat="item in data">
+        <p>天气情况：{{data.HeWeather5[0].now.cond.txt}}</p>
+        <p> 温度：{{data.HeWeather5[0].now.tmp}}℃</p>
+        <p> 风速：{{data.HeWeather5[0].now.wind.spd}}</p>
+        <p> 风向：{{data.HeWeather5[0].now.wind.dir}}</p>
+    </li>
+
+</ul>

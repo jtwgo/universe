@@ -1,0 +1,22 @@
+
+#left{
+	margin-top: 0px;
+	width: 250px;
+	height: 600px;
+	float: left;
+}
+#main{
+	margin-left: 0px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	width: auto;
+	float: left;
+}
+#bottom{
+	float: left;
+	bottom: 5px;
+	width: 100%;
+	height: 90px;
+	text-align: center;
+	border: 1px;
+}

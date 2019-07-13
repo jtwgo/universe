@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--<link rel="stylesheet" type="text/css" href="bootstrap.min.css">-->
+    <script src="angular.min.js"></script>
+    <script src="angular-route.js"></script><!--配置AngularJS路由的包-->
+    <script>
+        var myapp=angular.module("myapp",["ngRoute"]);/*一定要注入ngRoute*/
+
+        myapp.config(function ($routeProvider,$locationProvider) {
+            $locationProvider.hashPrefix('');
+            $routeProvider.when("/cart",{
+                templateUrl:"views/cart.html",
+                controller:"cartCtrl"
+            }).when("/jiesuan",{
+                templateUrl:"views/jiesuan.html",
+                controller:"jsCtrl"
+            }).when("/select",{
+                templateUrl:"views/select.html",
+                controller:"selectCtrl"
+            }).otherwise("/cart",{
+                redirectTo:"/cart"
+            })
+        })
+        //写个service存数据，谁想要用就进行调用
+        myapp.service("myservice",function () {
+            this.hh={
+                categories:[{id:"101",category:"商品01"},
+                    {id:"102",category:"商品02"},
+                    {id:"103",category:"商品03"},
+                    {id:"103",category:"商品04"}],
+                //商品明细
+                products:[
+                    {category:"商品01",name:"鼠标",desc:"2016春季爆款",price:"501",imgsrc:"views/images/TB1_50x50.jpg"},
+                    {category:"商品01",name:"键盘",desc:"2016夏季爆款",price:"600",imgsrc:"views/images/TB2_50x50.jpg"},
+                    {category:"商品01",name:"显示器",desc:"2016春季爆款",price:"321",imgsrc:"views/images/TB1_50x50.jpg"},
+                    {category:"商品01",name:"硬盘",desc:"2016夏季爆款",price:"601",imgsrc:"views/images/TB2_50x50.jpg"},
+                    {category:"商品02",name:"主机",desc:"2015春季爆款",price:"400",imgsrc:"views/images/TB1_50x50.jpg"},
+                    {category:"商品02",name:"音响",desc:"2015夏季爆款",price:"305",imgsrc:"views/images/TB2_50x50.jpg"},
+                    {category:"商品04",name:"插线板",desc:"2013夏季爆款",price:"401",imgsrc:"views/images/TB2_50x50.jpg"}
+                ]
+            };
+            this.dd=[];
+
+        });
+
+    </script>
+    <link rel="stylesheet" href="mlks.css">
+    <script src="views/cart.js"></script>
+    <script src="views/jiesuan.js"></script>
+    <script src="views/select.js"></script>
+
+
+</head>
+<body ng-app="myapp">
+<div class="div">
+    <div id="title">
+        <h2>成谋商城</h2>
+    </div>
+    <div id="div">
+        <a href="#/cart">购物车</a>
+        <a href="#/jiesuan">结算</a>
+        <a href="#/select">查询</a>
+    </div>
+    <div id="dd">
+        <ng-view>
+
+        </ng-view>
+    </div>
+</div>
+</body>
+</html>

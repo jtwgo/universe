@@ -1,0 +1,6 @@
+com\jtw\csfrm\common\Response.class
+com\jtw\csfrm\dao\Server.class
+com\jtw\csfrm\dao\ServerProxy.class
+com\jtw\csfrm\common\Request.class
+com\jtw\csfrm\dao\ServerProxy$ProxyInvovationHandler.class
+com\jtw\csfrm\dao\ServiceProxyFactory.class

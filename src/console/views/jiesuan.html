@@ -1,0 +1,20 @@
+<p>结算</p>
+<table class="table table-hove" style="width: 500px">
+    <tr style="text-align: center;">
+        <th><input type="checkbox" ng-model="qx" ng-click="xz()"/>全选</th>
+        <th>名称</th>
+        <th>数量</th>
+        <th>单价</th>
+        <th>小计</th>
+        <th>操作<button ng-click="delAll()">批量删除</button></th>
+    </tr>
+    <tr ng-repeat="item in dd">
+        <td><input type="checkbox" ng-model="item.done" ng-click="fx()"/></td>
+        <td>{{item.name}}</td>
+        <td>{{item.num}}</td>
+        <td>{{item.price}}</td>
+        <td>{{item.price*item.num}}</td>
+        <td><button ng-modle="item.done" ng-click="del($index)">删除</button></td>
+    </tr>
+</table>
+<p>总价：<span>{{zongjia()|currency:"￥："}}</span></p>

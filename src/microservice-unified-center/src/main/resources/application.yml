@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: unified-center
+  datasource:
+    name: spring_boot_mybatis
+    url: jdbc:mysql://localhost:3306/wolf
+    username: root
+    password: 123456
+    type: com.mchange.v2.c3p0.ComboPooledDataSource # 使用c3p0 数据源
+    driver-class-name: com.mysql.jdbc.Driver
+#    dbcp2:
+#      min-idle: 1
+#      max-idle: 2
+#      initial-size: 1
+#      time-between-eviction-runs-millis: 3000
+#      min-evictable-idle-time-millis: 300000
+#      validation-query: SELECT "ZTM" FROM DUAL
+#      test-while-idle: true
+#      test-on-borrow: false
+#      test-on-return: false
+
+mybatis:
+  mapper-locations: classpath:mapper/userMapper.xml
+  type-aliases-package: com.jtw.main.unified.entity
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:28110/eureka/
+  instance:
+    preferIpAddress: true
+

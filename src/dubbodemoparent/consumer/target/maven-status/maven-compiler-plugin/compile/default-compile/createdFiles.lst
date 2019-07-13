@@ -1,0 +1,5 @@
+com\jtw\main\config\Configuration.class
+com\jtw\main\service\IconsumerImpl.class
+com\jtw\main\service\IconsumerInter.class
+com\jtw\main\Consumer.class
+com\jtw\main\ConsumerApplication.class

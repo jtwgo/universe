@@ -1,0 +1,66 @@
+1.准备工作：
+    1）新建一个目录certificate_server(用于生成server证书)
+    在certificate_server目录下新建目录 
+        mkdir -p demoCA/certs;
+        mkdir -p demoCA/newcerts;
+        touch demoCA/index.txt && echo "02" >> demoCA/serial;
+    在find / -name openssl.cnf 然后copy到当前certificate_server路径下
+    2）新建一个目录certificate_client(用于生成client证书)
+        mkdir -p demoCA/certs;
+        mkdir -p demoCA/newcerts;
+        touch demoCA/index.txt && echo "02" >> demoCA/serial;
+2.生成步骤：
+    （注意CN值为访问的域名值）
+    2.1 生成ca证书和key
+        openssl req -new -x509  -subj "/C=CN/ST=SiChuan/L=ChengDu/O=JTW/OU=JTW/CN=localhost/emailAddress=xx@xx.com" -keyout rootCA.key -out rootCA.crt -config openssl.cnf       
+    2.2 进入certificate_server目录生成server证书，和信任的证书库clientTruststore.jks
+        cd certificate_server;
+        #生成服务端keysotre
+            keytool -genkey -alias tomcat_server -validity 3650 -keyalg RSA -keysize 1024 -keypass mrjiang@123.  -storepass mrjiang@123. -keystore server.keystore
+        #生成服务端证书请求文件csr
+            keytool -certreq  -alias tomcat_server -sigalg MD5withRSA -file tomcat_server.csr -keypass mrjiang@123. -storepass mrjiang@123. -keystore server.keystore
+        #通过rootCA.crt证书签发，获取服务证书
+            openssl ca -in tomcat_server.csr -out tomcat_server.crt -subj "/C=CN/ST=SiChuan/L=ChengDu/O=JTW/OU=JTW/CN=localhost/emailAddress=xx@xx.com" -cert rootCA.crt -keyfile rootCA.key -config openssl.cnf
+        #将rootCA.crt导入到keystore中
+            keytool -import -v -trustcacerts  -alias my_ca_root -file rootCA.crt -storepass mrjiang@123. -keystore server.keystore
+        #将服务证书导入到keystore中
+            keytool -import -v -alias tomcat_server -file tomcat_server.crt -storepass mrjiang@123. -keystore server.keystore       
+        #将服务证书导出到客户端信任证书
+            keytool -import -alias trustServer -file tomcat_server.crt -keystore clientTruststore.jks -storepass mrjiang@123.
+        #将rootCA证书导入到clientTruststore
+            keytool -import -v -trustcacerts  -alias my_ca_root -file rootCA.crt -keystore clientTruststore.jks -storepass mrjiang@123.
+            
+   2.3 进入certificate_client目录，生成client证书，和信任的证书库serverTruststore.jks
+        cd certificate_client;
+        #生成客户端keysotre
+            keytool -genkey -alias client -validity 3650 -keyalg RSA -keysize 1024 -keypass mrjiang@123.1  -storepass mrjiang@123.1 -keystore client.keystore
+        #生成证书请求文件csr
+            keytool -certreq  -alias client -sigalg MD5withRSA -file client.csr -keypass mrjiang@123.1 -storepass mrjiang@123.1 -keystore client.keystore
+        #通过rootCA.crt证书签发，获取服务证书
+            openssl ca -in client.csr -out client.crt -subj "/C=CN/ST=SiChuan/L=ChengDu/O=JTW/OU=JTW/CN=localhost/emailAddress=xx@xx.com" -cert rootCA.crt -keyfile rootCA.key -config openssl.cnf
+        #将rootCA.crt导入到keystore中
+            keytool -import -v -trustcacerts  -alias my_ca_root -file rootCA.crt -storepass mrjiang@123.1 -keystore client.keystore
+        #将服务证书导入到keystore中
+            keytool -import -v -alias client -file client.crt -storepass mrjiang@123.1 -keystore client.keystore       
+        #将服务证书导出到客户端信任证书
+            keytool -import -alias trustClient -file client.crt -keystore serverTruststore.jks -storepass mrjiang@123.1
+        #将rootCA证书导入到serverTruststore
+            keytool -import -v -trustcacerts  -alias my_ca_root -file rootCA.crt -keystore serverTruststore.jks -storepass mrjiang@123.1 
+把生成出来的keystore：
+server.keystore  serverTruststore.jks  client.keystore  clientTruststore.jks放到 /home/mrjiang/tomcat_cert(目录自己指定)；
+
+3. 在tomcat $CATALIAN_HOME/conf/server.xml,配置
+    <Connector  port="6443" 
+                protocol="org.apache.coyote.http11.Http11Protocol"
+                maxThreads="150" 
+                SSLEnabled="true" 
+                scheme="https" 
+                secure="true"
+                clientAuth="true" 
+                sslProtocol="TLSv1.2" 
+                keystoreFile="/home/mrjiang/tomcat_cert/server.keystore" 
+                keystorePass="mrjiang@123."
+                truststoreFile="/home/mrjiang/tomcat_cert/serverTruststore.jks"
+                truststorePass="mrjiang@123.1"/>
+                
+keytool -list -v -keystore server.keystore 查看证书

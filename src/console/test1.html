@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html ng-app="myApp" lang="zh_cn">
+<head>
+    <meta charset="utf-8">
+	<title>test angularjs</title>
+	<link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+	<script src="angular.min.js"></script>
+</head>
+<body ng-controller="contrl">
+    <div>
+        <input type="button" value="早上" ng-click="morningClick()">
+        <input type="button" value="下午" ng-click="afterClick()">
+    </div>
+    <script type="text/javascript">
+        const app = angular.module("myApp",[]);
+        app.config(function ($provide) {
+            $provide.service("$a",function () {
+                return {
+                    say:function () {
+                        alert("下午好")
+                    }
+                }
+            });
+            $provide.factory("$b",function () {
+                    var result={};
+                    result.hello = function () {
+                        alert("你好，我是b");
+                    };
+                    return result;
+                })
+        });
+        // app.controller("contrl",["$scope","$a",function ($scope,$a) {
+        //         $scope.text = "";
+        //         $scope.morningClick = function () {
+        //             $scope.text="早上天气不错"
+        //         };
+        //         $scope.afterClick = function () {
+        //             $a.say();
+        //         }
+        //     }])
+        // var demo = function ($scope,$a) {
+        //     $scope.morningClick = function () {
+        //         $a.say();
+        //     }
+        // }
+        // demo.$inject=["$scope","$a"];
+        // app.controller()
+        // app.controller("contrl",demo)
+        app.controller("contrl",["$scope","$a","$b",function ($scope,$a,$b) {
+            $scope.morningClick = function () {
+                $a.say();
+                $b.hello();
+            }
+        }])
+    </script>
+</body>
+</html>

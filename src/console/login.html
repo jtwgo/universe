@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>dream</title>
+    <link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body ng-app="loginApp">
+<div id="form" ng-controller="loginController">
+    <form action="/unified/sec/login" method="POST">
+        <label for="userName" >用户名</label>
+        <div class="form-group">
+            <input type="text" ng-model="userName" name="userName" class="form-control" id="userName" placeholder="userName" style="width: 200px">
+        </div>
+        <label for="password" >密 码</label>
+        <div class="form-group">
+            <input type="password" ng-model="password" name="password" class="form-control" id="password" placeholder="Password" style="width: 200px">
+        </div>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox"> 记住用户名
+            </label>
+            <label>
+                <a href="#">忘记密码？</a>
+            </label>
+        </div>
+        <button type="button" class="btn btn-primary" ng-click="login()">登陆</button>
+        <button type="button" class="btn btn-primary" style="margin-left: 90px">注册</button>
+    </form>
+</div>
+<script type="text/javascript" src="../angular-1.7.2/angular.min.js"></script>
+<script type="text/javascript" src="../controller/login/login.js"></script>
+</body>
+</html>

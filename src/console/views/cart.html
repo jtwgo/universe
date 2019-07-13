@@ -1,0 +1,31 @@
+<p>
+    价格区间： <select ng-model="ss">
+    <option>--请选择--</option>
+    <option>300-400</option>
+    <option>401-600</option>
+</select>
+    <span>商品名称的查询：<input type="text" placeholder="请搜索商品" ng-model="goods" /></span>
+</p>
+
+<ul>
+    <li ng-repeat="item in data.products|filter:goods|filter:pricefilter" style="list-style: none">
+        <table>
+            <tr>
+                <td>
+                    <p>{{item.category+item.name}}</p>
+                </td>
+                <td rowspan="2" style="width: 400px;margin-bottom: 1px">
+                    <p style="font-size: 10px">{{item.desc}}</p>
+                </td>
+                <td>{{item.price|currency:"￥"}}</td>
+
+            </tr>
+            <tr>
+                <td><img src="{{item.imgsrc}}" style="width: 60px;height: 60px">
+                </td>
+                <td><button ng-click="add(item)">添加到购物车</button></td>
+            </tr>
+        </table>
+    </li>
+
+</ul>
